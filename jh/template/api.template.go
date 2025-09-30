@@ -6,11 +6,11 @@ import (
 	"reflect"
 	"runtime"
 
-	"github.com/XiMo-210/jhgo/foundation/reply"
-	"github.com/XiMo-210/jhgo/kit"
-	"github.com/XiMo-210/jhgo/nlog"
-	"github.com/XiMo-210/jhgo/swagger"
 	"github.com/gin-gonic/gin"
+	"github.com/zjutjh/jhgo/foundation/reply"
+	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/jhgo/nlog"
+	"github.com/zjutjh/jhgo/swagger"
 
 	"app/comm"
 )
