@@ -1,0 +1,148 @@
+package httpserver
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
+	"os"
+	"time"
+
+	"github.com/gin-contrib/pprof"
+	"github.com/gin-contrib/requestid"
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
+
+	"github.com/zjutjh/jhgo/config"
+	"github.com/zjutjh/jhgo/foundation/kernel"
+	"github.com/zjutjh/jhgo/foundation/reply"
+	"github.com/zjutjh/jhgo/kit"
+)
+
+// CommandRegister 启动HTTP Server命令注册
+func CommandRegister(routeRegister func(engine *gin.Engine)) func(cmd *cobra.Command, args []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		StartHTTPServer(routeRegister)
+		return nil
+	}
+}
+
+// StartHTTPServer 启动HTTP Server
+func StartHTTPServer(routeRegister func(*gin.Engine)) {
+	// 获取配置
+	conf := DefaultConfig
+	config.Pick().UnmarshalKey("http_server", &conf)
+
+	// 初始化gin引擎
+	engine, err := initGinEngine(conf)
+	if err != nil {
+		fmt.Fprintln(os.Stdout, "初始化Gin Engine失败:", err)
+		os.Exit(1)
+	}
+
+	// 注册路由
+	routeRegister(engine)
+
+	// 初始化http server
+	server := initHTTPServer(engine, conf)
+
+	// 启动http server
+	go listenHTTPServer(server)
+
+	// 监听等待关闭服务
+	kernel.ListenStop(func() error {
+		ctx, cancel := context.WithTimeout(context.Background(), conf.ShutdownWaitTimeout)
+		defer cancel()
+		if err := server.Shutdown(ctx); err != nil {
+			return fmt.Errorf("HTTP Server等待优雅处理超时, 错误: %w", err)
+		} else {
+			fmt.Fprintln(os.Stdout, "HTTP Server关闭完成")
+		}
+		return nil
+	})
+}
+
+func initGinEngine(conf Config) (*gin.Engine, error) {
+	aw, ew, err := initGinLoggerWriter(conf)
+	if err != nil {
+		return nil, err
+	}
+
+	// 创建gin引擎实例
+	engine := gin.New()
+
+	// 设置gin参数 有需要时再补充
+	// engine.RedirectTrailingSlash = conf.Gin.RedirectTrailingSlash
+	// ......
+
+	// 创建gin全局日志记录
+	logger := gin.LoggerWithConfig(gin.LoggerConfig{
+		Formatter: accessLoggerFormatter(),
+		Output:    aw,
+	})
+	// 设置gin崩溃恢复中间件
+	recovery := gin.RecoveryWithWriter(ew, recoveryHandler)
+
+	// 设置gin全局中间件
+	engine.Use(requestid.New(), logger, recovery)
+
+	// 设置gin pprof
+	if conf.Pprof {
+		pprof.Register(engine, fmt.Sprintf("%s%s", config.AppName(), pprof.DefaultPrefix))
+	}
+
+	return engine, nil
+}
+
+func accessLoggerFormatter() gin.LogFormatter {
+	return func(param gin.LogFormatterParams) string {
+		if param.Latency > time.Minute {
+			param.Latency = param.Latency.Truncate(time.Second)
+		}
+
+		data := map[string]any{
+			"app":       config.AppName(),
+			"time":      param.TimeStamp.UnixMilli(),
+			"ts":        param.TimeStamp.Format(time.DateTime),
+			"api":       param.Path,
+			"method":    param.Method,
+			"client_ip": param.ClientIP,
+			"query":     param.Request.URL.Query(),
+			// "header":      param.Request.Header,
+			"error":       param.ErrorMessage,
+			"latency":     param.Latency.String(),
+			"status_code": param.StatusCode,
+		}
+		db, _ := json.Marshal(data)
+		return fmt.Sprintf("%s\n", string(db))
+	}
+}
+
+func recoveryHandler(ctx *gin.Context, err any) {
+	reply.Fail(ctx, kit.CodeUnknowkitor)
+	// // 发送报警
+	// go func() {
+	// 	defer func() {
+	// 		if err := recover(); err != nil {
+	// 			log.Println("请求飞书Bot发送报警发生了panic:", err)
+	// 		}
+	// 	}()
+	// 	message := fmt.Sprintf("请注意: HTTP Server发生了panic!!!: %#v", err)
+	// 	// TODO: 飞书Bot报警
+	// }()
+}
+
+func initHTTPServer(e *gin.Engine, conf Config) *http.Server {
+	return &http.Server{
+		Addr:    conf.Addr,
+		Handler: e,
+	}
+}
+
+func listenHTTPServer(s *http.Server) {
+	err := s.ListenAndServe()
+	if err != nil && !errors.Is(err, http.ErrServerClosed) {
+		fmt.Fprintln(os.Stdout, "启动HTTP Server失败:", err)
+	}
+}
