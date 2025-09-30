@@ -20,7 +20,7 @@ func Exist(scope string) bool {
 // Pick 获取指定scope实例
 func Pick(scopes ...string) redis.UniversalClient {
 	scope := defaultScope
-	if len(scopes) != 0 || scopes[0] != "" {
+	if len(scopes) != 0 && scopes[0] != "" {
 		scope = scopes[0]
 	}
 	return do.MustInvokeNamed[redis.UniversalClient](nil, iocPrefix+scope)

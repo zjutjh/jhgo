@@ -21,7 +21,7 @@ func Exist(scope string) bool {
 // Pick 获取指定scope实例
 func Pick(scopes ...string) *gorm.DB {
 	scope := defaultScope
-	if len(scopes) != 0 || scopes[0] != "" {
+	if len(scopes) != 0 && scopes[0] != "" {
 		scope = scopes[0]
 	}
 	return do.MustInvokeNamed[*gorm.DB](nil, iocPrefix+scope)
