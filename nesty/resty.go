@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-resty/resty/v2"
 
-	"github.com/zjutjh/jhgo/nlog"
+	"github.com/zjutjh/mygo/nlog"
 )
 
 // New 以指定配置创建实例

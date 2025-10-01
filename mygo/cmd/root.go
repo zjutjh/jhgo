@@ -5,11 +5,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/zjutjh/jhgo/jh/comm"
+	"github.com/zjutjh/mygo/mygo/comm"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "jh",
+	Use:   "mygo",
 	Short: "精弘网络本地开发者工具",
 	Long:  "精弘网络本地开发者工具",
 	Run: func(cmd *cobra.Command, args []string) {

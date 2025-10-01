@@ -1,4 +1,4 @@
-module github.com/zjutjh/jhgo/jh
+module github.com/zjutjh/mygo/mygo
 
 go 1.24.7
 

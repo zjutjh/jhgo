@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/mygo/kit"
 )
 
 var codeMsgMap map[kit.Code]string

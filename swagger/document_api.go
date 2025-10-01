@@ -10,8 +10,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zjutjh/jhgo/config"
-	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/kit"
 )
 
 type middlewareNames []string

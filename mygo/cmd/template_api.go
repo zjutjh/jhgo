@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/zjutjh/jhgo/jh/comm"
-	"github.com/zjutjh/jhgo/jh/template"
+	"github.com/zjutjh/mygo/mygo/comm"
+	"github.com/zjutjh/mygo/mygo/template"
 )
 
 var Body bool

@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"slices"
 
-	"github.com/zjutjh/jhgo/config"
-	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/kit"
 )
 
 func ParseApiStandRequestParameters(t reflect.Type, requestPos, validatePos, in string) []Parameter {

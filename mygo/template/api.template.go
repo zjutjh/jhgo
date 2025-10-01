@@ -7,10 +7,10 @@ import (
 	"runtime"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zjutjh/jhgo/foundation/reply"
-	"github.com/zjutjh/jhgo/kit"
-	"github.com/zjutjh/jhgo/nlog"
-	"github.com/zjutjh/jhgo/swagger"
+	"github.com/zjutjh/mygo/foundation/reply"
+	"github.com/zjutjh/mygo/kit"
+	"github.com/zjutjh/mygo/nlog"
+	"github.com/zjutjh/mygo/swagger"
 
 	"app/comm"
 )

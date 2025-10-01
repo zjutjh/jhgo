@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zjutjh/jhgo/swagger/internal/utils"
+	"github.com/zjutjh/mygo/swagger/internal/utils"
 )
 
 type authSchemeRegistry struct {
