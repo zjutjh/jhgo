@@ -9,9 +9,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/zjutjh/jhgo/config"
-	"github.com/zjutjh/jhgo/foundation/kernel"
-	"github.com/zjutjh/jhgo/nlog"
+	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/foundation/kernel"
+	"github.com/zjutjh/mygo/nlog"
 )
 
 var cfgPath string

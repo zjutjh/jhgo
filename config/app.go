@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/mygo/kit"
 )
 
 // 应用环境

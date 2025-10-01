@@ -3,7 +3,7 @@ package nedis
 import (
 	"github.com/redis/go-redis/v9"
 
-	"github.com/zjutjh/jhgo/nlog"
+	"github.com/zjutjh/mygo/nlog"
 )
 
 // New 以指定配置创建实例

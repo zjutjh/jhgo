@@ -13,8 +13,8 @@ import (
 	"github.com/robfig/cron/v3"
 	"github.com/spf13/cobra"
 
-	"github.com/zjutjh/jhgo/config"
-	"github.com/zjutjh/jhgo/foundation/kernel"
+	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/foundation/kernel"
 )
 
 // CommandRegister 启动定时任务命令注册

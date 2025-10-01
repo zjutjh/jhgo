@@ -14,10 +14,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 
-	"github.com/zjutjh/jhgo/config"
-	"github.com/zjutjh/jhgo/foundation/kernel"
-	"github.com/zjutjh/jhgo/foundation/reply"
-	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/foundation/kernel"
+	"github.com/zjutjh/mygo/foundation/reply"
+	"github.com/zjutjh/mygo/kit"
 )
 
 // CommandRegister 启动HTTP Server命令注册

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zjutjh/jhgo/config"
+	"github.com/zjutjh/mygo/config"
 )
 
 type BootList []func() error

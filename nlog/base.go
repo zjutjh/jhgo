@@ -6,8 +6,8 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/samber/do"
 
-	"github.com/zjutjh/jhgo/config"
-	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/kit"
 )
 
 // Boot 预加载默认实例 同时加载指定实例列表

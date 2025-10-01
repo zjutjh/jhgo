@@ -4,7 +4,7 @@ import (
 	"errors"
 	"slices"
 
-	"github.com/zjutjh/jhgo/kit"
+	"github.com/zjutjh/mygo/kit"
 )
 
 var statusCodeMap = map[string][]kit.Code{}

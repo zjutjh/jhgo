@@ -10,7 +10,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/zjutjh/jhgo/config"
+	"github.com/zjutjh/mygo/config"
 )
 
 func New(conf Config) *logrus.Logger {
