@@ -12,7 +12,14 @@ var DefaultConfig = Config{
 
 	Level: logrus.InfoLevel,
 
-	// FeishuHook: FeishuHookConfig{},
+	FeishuHook: FeishuHookConfig{
+		Feishu: "",
+		NoticeLevels: []logrus.Level{
+			logrus.PanicLevel,
+			logrus.FatalLevel,
+			logrus.ErrorLevel,
+		},
+	},
 }
 
 type Config struct {
@@ -25,9 +32,10 @@ type Config struct {
 
 	Level logrus.Level `mapstructure:"level"` // Level 日志实例记录等级
 
-	// TODO 飞书报警
-	// FeishuHook FeishuHookConfig `mapstructure:"feishu_hook"` // FeishuHook 日志消息推送Feishu的Hook配置
+	FeishuHook FeishuHookConfig `mapstructure:"feishu_hook"`
 }
 
-// type FeishuHookConfig struct {
-// }
+type FeishuHookConfig struct {
+	Feishu       string         `mapstructure:"feishu"`
+	NoticeLevels []logrus.Level `mapstructure:"notice_levels"`
+}

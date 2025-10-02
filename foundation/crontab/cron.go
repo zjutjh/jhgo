@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/feishu"
 	"github.com/zjutjh/mygo/foundation/kernel"
 )
 
@@ -83,16 +84,16 @@ func Recover(logger cron.Logger) cron.JobWrapper {
 						err = fmt.Errorf("%v", r)
 					}
 					logger.Error(err, "panic", "stack", "...\n"+string(buf))
-					// // 发送报警
-					// go func() {
-					// 	defer func() {
-					// 		if err2 := Recover(logger); err2 != nil {
-					// 			log.Println("请求飞书Bot发送报警发生了panic", err2)
-					// 		}
-					// 		message := fmt.Sprintf("请注意: CroninJob[%#v]发生了panic!!!\npanic: %#v", j, r)
-					// 		// TODO: 飞书Bot报警
-					// 	}()
-					// }()
+					// 发送报警
+					go func() {
+						defer func() {
+							if err2 := Recover(logger); err2 != nil {
+								log.Println("请求飞书Bot发送报警发生了panic", err2)
+							}
+							message := fmt.Sprintf("请注意: CroninJob[%#v]发生了panic!!!\npanic: %#v", j, r)
+							feishu.Pick().Send("CronJob Panic!!!", message)
+						}()
+					}()
 				}
 			}()
 			j.Run()

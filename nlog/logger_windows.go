@@ -11,6 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/feishu"
 )
 
 func New(conf Config) *logrus.Logger {
@@ -46,6 +47,7 @@ func New(conf Config) *logrus.Logger {
 	logger.AddHook(&hookField{
 		app: config.AppName(),
 	})
+	logger.AddHook(newFeishuHook(feishu.Pick(conf.FeishuHook.Feishu), conf.FeishuHook.NoticeLevels))
 
 	return logger
 }

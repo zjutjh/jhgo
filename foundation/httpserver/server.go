@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -15,6 +16,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/zjutjh/mygo/config"
+	"github.com/zjutjh/mygo/feishu"
 	"github.com/zjutjh/mygo/foundation/kernel"
 	"github.com/zjutjh/mygo/foundation/reply"
 	"github.com/zjutjh/mygo/kit"
@@ -121,16 +123,16 @@ func accessLoggerFormatter() gin.LogFormatter {
 
 func recoveryHandler(ctx *gin.Context, err any) {
 	reply.Fail(ctx, kit.CodeUnknowkitor)
-	// // 发送报警
-	// go func() {
-	// 	defer func() {
-	// 		if err := recover(); err != nil {
-	// 			log.Println("请求飞书Bot发送报警发生了panic:", err)
-	// 		}
-	// 	}()
-	// 	message := fmt.Sprintf("请注意: HTTP Server发生了panic!!!: %#v", err)
-	// 	// TODO: 飞书Bot报警
-	// }()
+	// 发送报警
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println("请求飞书Bot发送报警发生了panic:", err)
+			}
+		}()
+		message := fmt.Sprintf("请注意: HTTP Server发生了panic!!!\npanic: %#v", err)
+		feishu.Pick().Send("HTTP Server Panic!!!", message)
+	}()
 }
 
 func initHTTPServer(e *gin.Engine, conf Config) *http.Server {
