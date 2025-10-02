@@ -127,11 +127,12 @@ func recoveryHandler(ctx *gin.Context, err any) {
 	go func() {
 		defer func() {
 			if err := recover(); err != nil {
-				log.Println("请求飞书Bot发送报警发生了panic:", err)
+				log.Println("请求飞书Bot发送报警发生了Panic:", err)
 			}
 		}()
-		message := fmt.Sprintf("请注意: HTTP Server发生了panic!!!\npanic: %#v", err)
-		feishu.Pick().Send("HTTP Server Panic!!!", message)
+		title := fmt.Sprintf("[%s]HTTP Server Panic!!!", config.AppName())
+		message := fmt.Sprintf("请注意: HTTP Server发生了Panic!!!\nPanic: %#v", err)
+		feishu.Pick().Send(title, message)
 	}()
 }
 

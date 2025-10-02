@@ -87,12 +87,13 @@ func Recover(logger cron.Logger) cron.JobWrapper {
 					// 发送报警
 					go func() {
 						defer func() {
-							if err2 := Recover(logger); err2 != nil {
-								log.Println("请求飞书Bot发送报警发生了panic", err2)
+							if err2 := recover(); err2 != nil {
+								log.Println("请求飞书Bot发送报警发生了Panic", err2)
 							}
-							message := fmt.Sprintf("请注意: CroninJob[%#v]发生了panic!!!\npanic: %#v", j, r)
-							feishu.Pick().Send("CronJob Panic!!!", message)
 						}()
+						title := fmt.Sprintf("[%s]CronJob Panic!!!", config.AppName())
+						message := fmt.Sprintf("请注意: CronJob[%#v]发生了Panic!!!\nPanic: %#v", j, r)
+						feishu.Pick().Send(title, message)
 					}()
 				}
 			}()

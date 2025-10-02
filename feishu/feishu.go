@@ -106,7 +106,7 @@ func (f *Feishu) Send(title, message string) error {
 		return fmt.Errorf("发送飞书Bot消息状态码错误: %w", err)
 	}
 	if res.Code != 0 {
-		return fmt.Errorf("发送飞书Bot消息业务码错误: %w", err)
+		return fmt.Errorf("发送飞书Bot消息业务码错误: %v", res)
 	}
 
 	return nil
