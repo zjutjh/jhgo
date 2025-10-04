@@ -320,14 +320,14 @@ func limitString(s string, n int) string {
 
 func registerCommonResponseExamples(commExamples map[string]ExampleObject, codes []kit.Code) {
 	for _, code := range codes {
-		commName := fmt.Sprintf("response_business_status_code_%d", code)
+		commName := fmt.Sprintf("response_business_status_code_%d", code.Code)
 		// 注册通用业务状态码响应示例
 		if _, ok := commExamples[commName]; ok {
 			continue
 		}
-		msg := config.GetMessageByCode(code)
+		msg := code.Message
 		commExamples[commName] = ExampleObject{
-			Summary: fmt.Sprintf("状态码 %d：%s", code, limitString(msg, 5)),
+			Summary: fmt.Sprintf("状态码 %d: %s", code.Code, limitString(msg, 5)),
 			Value: commResponse{
 				Code:    code,
 				Message: msg,

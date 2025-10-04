@@ -104,14 +104,14 @@ func accessLoggerFormatter() gin.LogFormatter {
 		}
 
 		data := map[string]any{
-			"app":       config.AppName(),
-			"time":      param.TimeStamp.UnixMilli(),
-			"ts":        param.TimeStamp.Format(time.DateTime),
-			"api":       param.Path,
-			"method":    param.Method,
-			"client_ip": param.ClientIP,
-			"query":     param.Request.URL.Query(),
-			// "header":      param.Request.Header,
+			"app":         config.AppName(),
+			"time":        param.TimeStamp.UnixMilli(),
+			"ts":          param.TimeStamp.Format(time.DateTime),
+			"api":         param.Path,
+			"method":      param.Method,
+			"client_ip":   param.ClientIP,
+			"query":       param.Request.URL.Query(),
+			"header":      param.Request.Header,
 			"error":       param.ErrorMessage,
 			"latency":     param.Latency.String(),
 			"status_code": param.StatusCode,
@@ -122,7 +122,7 @@ func accessLoggerFormatter() gin.LogFormatter {
 }
 
 func recoveryHandler(ctx *gin.Context, err any) {
-	reply.Fail(ctx, kit.CodeUnknowkitor)
+	reply.Fail(ctx, kit.CodeUnknownError)
 	// 发送报警
 	go func() {
 		defer func() {

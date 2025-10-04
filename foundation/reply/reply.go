@@ -5,15 +5,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zjutjh/mygo/config"
 	"github.com/zjutjh/mygo/kit"
 )
 
 // Response 通用标准响应
 type Response struct {
-	Code    kit.Code `json:"code"`
-	Message string   `json:"message"`
-	Data    any      `json:"data"`
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+	Data    any    `json:"data"`
 }
 
 // Success 标准成功HTTP API响应
@@ -29,8 +28,8 @@ func Fail(ctx *gin.Context, code kit.Code) {
 // Reply 标准HTTP API响应
 func Reply(ctx *gin.Context, code kit.Code, data any) {
 	ctx.JSON(http.StatusOK, Response{
-		Code:    code,
-		Message: config.GetMessageByCode(code),
+		Code:    code.Code,
+		Message: code.Message,
 		Data:    data,
 	})
 	ctx.Abort()

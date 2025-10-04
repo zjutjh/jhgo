@@ -12,7 +12,9 @@ var statusCodeMap = map[string][]kit.Code{}
 var ErrBusinessStatusAlreadyRegistered = errors.New("该处理器已经注册业务状态码")
 
 func RegisterBusinessStatusCodes(funcName string, codes []kit.Code) error {
-	slices.Sort(codes)
+	slices.SortFunc(codes, func(a, b kit.Code) int {
+		return int(a.Code) - int(b.Code)
+	})
 	if v, ok := statusCodeMap[funcName]; ok {
 		if slices.Equal(v, codes) {
 			return nil
@@ -46,6 +48,8 @@ func getAllBusinessStatusCodes(handerNames ...string) []kit.Code {
 	for code := range allCodes {
 		ans = append(ans, code)
 	}
-	slices.Sort(ans)
+	slices.SortFunc(ans, func(a, b kit.Code) int {
+		return int(a.Code) - int(b.Code)
+	})
 	return ans
 }

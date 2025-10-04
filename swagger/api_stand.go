@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"slices"
 
-	"github.com/zjutjh/mygo/config"
 	"github.com/zjutjh/mygo/kit"
 )
 
@@ -109,7 +108,7 @@ func ParseApiStandRequestBody(t reflect.Type) *RequestBody {
 }
 
 func getComponentExampleRef(code kit.Code) string {
-	return fmt.Sprintf("#/components/examples/response_business_status_code_%d", code)
+	return fmt.Sprintf("#/components/examples/response_business_status_code_%d", code.Code)
 }
 
 type commResponse struct {
@@ -158,7 +157,7 @@ func ParseApiStandResponse(t reflect.Type, businessStatusCodes []kit.Code) Respo
 	}
 	// 嵌入业务状态码信息
 	if slices.Contains(businessStatusCodes, kit.CodeOK) {
-		messageProperty.Default = config.GetMessageByCode(kit.CodeOK)
+		messageProperty.Default = kit.CodeOK.Message
 	}
 	standResponse.Description = "HTTP 状态码为 200 时的业务响应"
 	standResponse.Content = map[string]MediaType{"application/json": {Schema: standProperty}}
@@ -170,7 +169,7 @@ func GenerateApifailureResponse(businessStatusCodes []kit.Code) (Response, bool)
 	// 嵌入业务状态码清单
 	examples := map[string]ExampleObject{}
 	for _, code := range businessStatusCodes {
-		name := fmt.Sprintf("code-%d", code)
+		name := fmt.Sprintf("code-%d", code.Code)
 		if code == kit.CodeOK {
 			continue
 		}

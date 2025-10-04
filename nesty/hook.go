@@ -11,12 +11,12 @@ import (
 
 func onBeforeRequest() func(client *resty.Client, request *resty.Request) error {
 	return func(client *resty.Client, request *resty.Request) error {
-		// 设置X-Request-ID
-		if request.Header.Get("X-Request-ID") == "" {
+		// 设置X-Request-Id
+		if request.Header.Get("X-Request-Id") == "" {
 			ctx := request.Context()
 			if ctx2, ok := ctx.(*gin.Context); ok {
-				if rid := ctx2.GetString("X-Request-ID"); rid != "" {
-					request.SetHeader("X-Request-ID", rid)
+				if rid := ctx2.GetString("X-Request-Id"); rid != "" {
+					request.SetHeader("X-Request-Id", rid)
 				}
 			}
 		}

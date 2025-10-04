@@ -45,8 +45,3 @@ func AppEnv() string {
 	}
 	return env
 }
-
-// CodeList 获取配置的Code列表
-func CodeList() map[string]string {
-	return Pick().GetStringMapString("code")
-}

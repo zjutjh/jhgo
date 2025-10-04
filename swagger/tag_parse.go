@@ -299,13 +299,14 @@ func EMAIL(binding string, property *Property) bool {
 }
 
 func IP(binding string, property *Property) bool {
-	if binding == "ip" {
+	switch binding {
+	case "ip":
 		property.Format = "ip"
-	} else if binding == "ipv4" {
+	case "ipv4":
 		property.Format = "ipv4"
-	} else if binding == "ipv6" {
+	case "ipv6":
 		property.Format = "ipv6"
-	} else {
+	default:
 		return false
 	}
 	return true

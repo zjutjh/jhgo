@@ -37,7 +37,7 @@ func (h *hookField) Fire(entry *logrus.Entry) error {
 			entry.Data["client_ip"] = ctx.ClientIP()
 			entry.Data["uri"] = ctx.Request.Host + ctx.Request.RequestURI
 			entry.Data["method"] = ctx.Request.Method
-			if rid := ctx.GetHeader("X-Request-ID"); rid != "" {
+			if rid := ctx.GetHeader("X-Request-Id"); rid != "" {
 				entry.Data["request_id"] = rid
 			}
 		}
