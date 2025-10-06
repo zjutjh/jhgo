@@ -45,6 +45,6 @@ func Auth(mustLogged bool) gin.HandlerFunc {
 		}
 
 		// 挂载 uid
-		myjwt.MountUid(ctx, claims.Uid)
+		myjwt.MountUid(ctx, claims.Subject)
 	}
 }
