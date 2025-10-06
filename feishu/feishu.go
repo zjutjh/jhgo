@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"net"
 	"net/http"
 	"time"
 
@@ -30,10 +31,24 @@ func New(conf Config) *Feishu {
 	hc := &http.Client{
 		Timeout: conf.Timeout,
 		Transport: &http.Transport{
-			MaxIdleConns:        conf.MaxIdleConns,
-			MaxIdleConnsPerHost: conf.MaxIdleConnsPerHost,
-			MaxConnsPerHost:     conf.MaxConnsPerHost,
-			IdleConnTimeout:     conf.IdleConnTimeout,
+			Proxy: http.ProxyFromEnvironment,
+			DialContext: (&net.Dialer{
+				Timeout:   conf.DialContextTimeout,
+				KeepAlive: conf.DialContextKeepAlive,
+			}).DialContext,
+			TLSHandshakeTimeout:    conf.TLSHandshakeTimeout,
+			DisableKeepAlives:      conf.DisableKeepAlives,
+			DisableCompression:     conf.DisableCompression,
+			MaxIdleConns:           conf.MaxIdleConns,
+			MaxIdleConnsPerHost:    conf.MaxIdleConnsPerHost,
+			MaxConnsPerHost:        conf.MaxConnsPerHost,
+			IdleConnTimeout:        conf.IdleConnTimeout,
+			ResponseHeaderTimeout:  conf.ResponseHeaderTimeout,
+			ExpectContinueTimeout:  conf.ExpectContinueTimeout,
+			MaxResponseHeaderBytes: conf.MaxResponseHeaderBytes,
+			WriteBufferSize:        conf.WriteBufferSize,
+			ReadBufferSize:         conf.ReadBufferSize,
+			ForceAttemptHTTP2:      conf.ForceAttemptHTTP2,
 		},
 	}
 
