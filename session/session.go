@@ -70,10 +70,10 @@ func Pick(keys ...string) gin.HandlerFunc {
 }
 
 // SetUid 设置uid到session
-func SetUid(ctx *gin.Context, uid string) {
+func SetUid(ctx *gin.Context, uid string) error {
 	session := sessions.Default(ctx)
 	session.Set(UidKey, uid)
-	_ = session.Save()
+	return session.Save()
 }
 
 // GetUid 获取session中的uid
@@ -92,8 +92,8 @@ func GetUid(ctx *gin.Context) (string, error) {
 }
 
 // DeleteUid 删除session中的uid
-func DeleteUid(ctx *gin.Context) {
+func DeleteUid(ctx *gin.Context) error {
 	session := sessions.Default(ctx)
 	session.Delete(UidKey)
-	_ = session.Save()
+	return session.Save()
 }
