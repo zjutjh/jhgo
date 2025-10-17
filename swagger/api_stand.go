@@ -112,9 +112,9 @@ func getComponentExampleRef(code kit.Code) string {
 }
 
 type commResponse struct {
-	Code    kit.Code `json:"code"`
-	Data    any      `json:"data"`
-	Message string   `json:"message"`
+	Code    int64  `json:"code"`
+	Data    any    `json:"data"`
+	Message string `json:"message"`
 }
 
 func ParseApiStandResponse(t reflect.Type, businessStatusCodes []kit.Code) Response {

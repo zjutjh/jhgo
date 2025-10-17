@@ -329,7 +329,7 @@ func registerCommonResponseExamples(commExamples map[string]ExampleObject, codes
 		commExamples[commName] = ExampleObject{
 			Summary: fmt.Sprintf("状态码 %d: %s", code.Code, limitString(msg, 5)),
 			Value: commResponse{
-				Code:    code,
+				Code:    code.Code,
 				Message: msg,
 			},
 		}
